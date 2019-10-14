@@ -1,4 +1,5 @@
-from app import app
+#from opencalc import app as application
+from opencalc import app
 
 if __name__ == "__main__":
     app.run()
