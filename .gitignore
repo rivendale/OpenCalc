@@ -68,7 +68,7 @@ docs/_build/
 
 # PyBuilder
 target/
-
+settings
 # Jupyter Notebook
 .ipynb_checkpoints
 
@@ -102,7 +102,7 @@ opencalcenv/
 /site
 
 # mypy
-.mypy_cache/
+.mypy_cache
 
 #Open Calc stuff
 setup.py
