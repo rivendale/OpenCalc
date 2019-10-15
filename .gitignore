@@ -92,7 +92,7 @@ venv.bak/
 opencalcenv/
 
 # Spyder project settings
-.spyderproject
+.spyderprsettingsoject
 .spyproject
 
 # Rope project settings
@@ -107,3 +107,4 @@ opencalcenv/
 #Open Calc stuff
 setup.py
 /ignore
+settings.py
