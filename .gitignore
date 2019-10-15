@@ -105,6 +105,5 @@ opencalcenv/
 .mypy_cache
 
 #Open Calc stuff
-setup.py
 /ignore
 settings.py
