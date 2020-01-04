@@ -1,8 +1,8 @@
 from flask import Flask, render_template, flash, request, redirect, session, url_for, abort, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
-from flask.ext.login import LoginManager
-from flask.ext.login import login_user , logout_user , current_user , login_required
+from flask_login import LoginManager
+from flask_login import login_user , logout_user , current_user , login_required
 
 import os, sys
 import requests
