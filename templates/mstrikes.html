@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block content %}
+   <div class="col-md-12">
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('posit') }}" class="btn-primary">Symbols</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradeview') }}" class="btn-primary">Tracking</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('crposit') }}" class="btn-primary">Blockchain</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradearch') }}" class="btn-primary">Archived</a>
+</div>
+
+   <div class="col-md-12">
+      </br>
+<a class="btn btn-lg btn-default" role="button" href="{{ backref }}" class="btn-primary">Go Back</a>
+</div>
+
+{%- for message in get_flashed_messages() %}
+  <div class="col-md-12">
+      {{ message }}
+      </div>
+{%- endfor %}
+</br>
+
+ <div class="col-md-12">
+<h4><b>{{ symbol }}</b> </h4>
+<h4>Days to Expiration: {{ numdays }}  [Expiration Date: {{ expdate }}]</h4>
+<h4>Current Price: {{ currprice }}</h4>
+<h4>Volume: {{ tarvol }}</h4>
+</div>
+
+ <div class="col-md-12">
+     <h4><b>Put Strikes</b> </h4> 
+     
+   <table class="table table-striped">
+      <thead>
+         <tr>
+            <th>STRIKE </th>
+            <th>AVG PRICE</th>
+            <th>ROR</th>
+            <th>OTM</th>
+            <th>VOLUME</th>
+            <th>OPTI</th>
+            <th>TRADE (Sell Put)</th>
+         </tr>
+      </thead>
+      <tbody>
+         {% for put in puts %}
+            <tr>
+               <td>{{ put.strike }} </td>
+               <td>{{ put.mid }}</td>
+               <td>{{ put.ror }}%</td>
+               <td>{{ put.otm }}%</td>
+               <td>{{ put.vol }}</td>
+               <td>{{ put.opti }}</td>
+               <td><a href="{{ url_for('tradeadd', sym = symbol, putorcall='P', exp = expdate, strike1 = put.strike, strike2=0,initprem=put.mid,numdays = numdays,opti=put.opti,strat=1, ror=put.ror) }}"><img src="http://www.clker.com/cliparts/J/N/5/l/n/k/add-button-blue-hi.png" height = "19" width = "70" alt="Add"></a> </td>
+            </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+         
+         </div>
+         
+          <div class="col-md-12">
+     <h4><b>Call Strikes</b> </h4> 
+     
+   <table class="table table-striped">
+      <thead>
+         <tr>
+            <th>STRIKE </th>
+            <th>AVG PRICE</th>
+            <th>VOLUME</th>
+            <th>BREAK-EVEN</th>
+         </tr>
+      </thead>
+      <tbody>
+         {% for call in calls %}
+            <tr>
+               <td>{{ call.strike }} </td>
+               <td>{{ call.mid }}</td>
+               <td>{{ call.vol }}</td>
+               <td>{{ call.breakeven }}</td>
+            </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+         
+         </div>
+{% endblock %}

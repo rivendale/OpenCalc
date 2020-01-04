@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="col-md-12">
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('posit') }}" class="btn-primary">Symbols</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradeview') }}" class="btn-primary">Tracking</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('crposit') }}" class="btn-primary">Blockchain</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradearch') }}" class="btn-primary">Archived</a>
+</div>
+
+{%- for message in get_flashed_messages() %}
+  <div class="col-md-12">
+      {{ message }}
+      </div>
+{%- endfor %}
+</br>
+</br>
+</br>
+ <div class="col-md-12">
+   <table>
+      <thead>
+         <tr>
+            <th>Expiration Dates for {{ symbol }}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {% for expdate in edates %}
+            <tr>
+               <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('getorigoptinf', sym = symbol, exp = expdate.date) }}">{{ expdate.date }}</a> </td>
+            </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+         
+         </div>
+         
+
+{% endblock %}

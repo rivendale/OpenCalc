@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block content %}
+   <div class="col-md-12">
+      <a class="btn btn-lg btn-default" role="button" href="{{ url_for('newposit') }}" class="btn-primary">New</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('posit') }}" class="btn-primary">Symbols</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradeview') }}" class="btn-primary">Tracking</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradearch') }}" class="btn-primary">Archived</a>
+</div>
+{%- for message in get_flashed_messages() %}
+  <div class="col-md-12">
+      {{ message }}
+      </div>
+{%- endfor %}
+</br>
+
+	
+ <div class="col-md-12">
+     <h4>
+   {% if viewtype == "TRADES" %}
+   <a href="{{ url_for('traderefresh') }}"><img src="https://image.flaticon.com/icons/png/128/179/179407.png" width="35" height="35" alt="Refresh"></a></td>
+   {% endif %}<b>{{ viewtype }}</b>  </h4> 
+     
+      <table class="table table-striped">
+      <thead>
+         <tr>
+            <th></th>
+            <th>Premium Captured</th>
+            <th>Strategy</th>
+            <th>Put or Call</th>
+            <th>Symbol</th>
+            <th>Expiration (Days left)</th>
+            <th>Short Strike</th>
+            <th>Long Strike</th>
+            <th>Initial Premium</th>
+            <th>Current Premium</th>
+            <th>OPTI</th>
+            <th></th>
+         </tr>
+      </thead>
+      
+      <tbody>
+                 {% for trade in trades %}
+            <tr>
+               <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('trademod', tradeid = trade.id) }}"><img src="https://visualpharm.com/assets/633/Close%20Sign-595b40b85ba036ed117dccf6.svg" width="15" height="15" alt="Close"></a></td>
+               <td>{{ trade.premcap }}%</td>
+               {% if trade.strat == 2 %}
+               <td>Put-Spread</td>
+               {% elif trade.strat == 1 %}
+               <td>Cash-Secured Put</td>
+               {% endif %}
+               <td>{{ trade.putorcall }}</td>
+               <td>{{ trade.symbol }}</td>
+               <td>{{ trade.expirationdate }} ({{ trade.daysleft}})</td>
+               <td>{{ trade.strike1 }}</td>
+               {% if trade.strat == 2 %}
+               <td>{{ trade.strike2 }}</td>
+               {% elif trade.strat == 1 %}
+               <td>N/A</td>
+               {% endif %}
+               <td>{{ trade.initprem }}</td>
+               <td>{{ trade.currprem }}</td>
+               <td>{{ trade.opti }}</td>
+               <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('tradedel', tradeid = trade.id) }}"><img src="https://image.flaticon.com/icons/png/128/121/121113.png" width="15" height="15" alt="Delete"></a></td>
+            </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+    
+     </h4>
+
+         
+         </div>
+{% endblock %}

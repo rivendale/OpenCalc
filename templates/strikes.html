@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+   <div class="col-md-12">
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('posit') }}" class="btn-primary">Symbols</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradeview') }}" class="btn-primary">Tracking</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradearch') }}" class="btn-primary">Archived</a>
+</div>
+{%- for message in get_flashed_messages() %}
+  <div class="col-md-12">
+      {{ message }}
+      </div>
+{%- endfor %}
+</br>
+
+	
+ <div class="col-md-12">
+     <h4><b>Strikes for {{ symbol }}</b> </h4> 
+   <table class="table table-striped">
+      <thead>
+         <tr>
+            <th>&nbsp&nbsp&nbsp  </th>
+            <th>Rank %</th>
+            <th>Expiration</th>
+            <th>Days</th>
+            <th>Strike</th>
+            <th>Premium</th>
+         </tr>
+      </thead>
+      <tbody>
+         {% for item in strikes %}
+            <tr>
+               <td>{{ item.putorcall }} </td>
+               <td>{{ item.opti }}% </td>
+               <td>{{ item.expirationdate }} </td>
+               <td>{{ item.numdays }} </td>
+               <td>{{ item.strike }} </td>
+               <td>{{ item.premium }} </td>
+            </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+         
+         </div>
+{% endblock %}

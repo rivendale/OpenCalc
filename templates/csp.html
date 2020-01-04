@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block content %}
+   <div class="col-md-12">
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('index') }}" class="btn-primary">Main Menu</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('posit') }}" class="btn-primary">Symbols</a>
+</div>
+{%- for message in get_flashed_messages() %}
+  <div class="col-md-12">
+      {{ message }}
+      </div>
+{%- endfor %}
+</br>
+
+	
+ <div class="col-md-12">
+     <h4><a href="{{ url_for('tradeadd', sym = symbol, putorcall='P', exp = expdate, strike1 = shortstrike, strike2=0,initprem=creditprem,numdays = initnumdays,opti=opti,strat=1, ror=ror) }}"><img src="http://www.clker.com/cliparts/J/N/5/l/n/k/add-button-blue-hi.png" height = "50" width = "100" alt="Add"></a><b>Cash-Secured Put for {{ symbol }} [Price: ${{ tprice }}]</b> 
+     
+     </h4> 
+     <h4>Expiration Date: {{ expdate }} ({{ initnumdays }} days)</h4>
+     
+     <h4>Note: 1 Contract (100 Shares):
+     
+             <table class="table table-striped">
+      <thead>
+         <tr>
+            <th>Trade type</th>
+            <th>Short Strike</th>
+            <th>Premium (Credit)</th>
+            <th>$ Amount</th>
+            <th>ROR</th>
+            <th>OPTI</th>
+         </tr>
+      </thead>
+      
+      <tbody>
+            <tr>
+               <td>Cash Secured Put</td>
+               <td>${{ shortstrike }} </td>
+               <td>${{ creditprem }} </td>
+               <td>${{ acqcost }}</td>
+               <td>{{ ror }}%</td>
+               <td>{{ opti }}</td>
+            </tr>
+      </tbody>
+   </table>
+    
+    
+     </h4>
+         </div>
+{% endblock %}

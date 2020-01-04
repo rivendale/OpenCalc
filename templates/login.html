@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block body %}
+ 
+  <div class="col-md-12">
+  {%- for message in get_flashed_messages() %}
+  <div class="col-md-12">
+      {{ message }}
+      </div>
+{%- endfor %}
+</br>
+  <form action="" method=post class="form-horizontal">
+    <h2>Sign In </h2>
+    <div class="control-group">
+        <div class="controls">
+          <input type="text" id="username" name="username" class="input-xlarge"
+            placeholder="Enter Username" required>
+        </div>
+    </div>
+ 
+    <div class="control-group">
+        <div class="controls">
+          <input type="password" id="password" name="password" class="input-xlarge"
+            placeholder="Enter Password" required>
+        </div>
+    </div>
+ 
+    <div class="control-group">
+        <div class="controls">
+          <button type="submit" role="button" class="btn btn-success">Sign In</button>
+        </div>
+    </div>
+  </form>
+  
+       </div>
+{% endblock %}

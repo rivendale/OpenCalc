@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <main class="hero-section">
+    <div class="container">
+      
+      <div class="col-md-12">     
+        <div class="col-md-12">
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('index') }}" class="btn-primary">Main Menu</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('posit') }}" class="btn-primary">Symbols</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradeview') }}" class="btn-primary">Tracking</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradearch') }}" class="btn-primary">Archived</a>
+</br>
+     {% if g.user.is_admin%}
+          </br>
+          ADMIN FUNCTIONS: </br>
+          <a class="btn btn-lg btn-default" role="button" href="{{ url_for('crposit') }}" class="btn-primary">Test Features</a>
+     {% endif %}
+        
+
+    </div>
+    </br>
+{%- for message in get_flashed_messages() %}
+  <div class="col-md-12">
+      {{ message }}
+      </div>
+{%- endfor %}
+</br>
+    <div class="col-md-12">
+   <table class="table table-striped">
+      <thead>
+         <tr>
+            <th>SYMBOLS</th>
+
+         </tr>
+      </thead>
+      <tbody>
+         {% for ticker in tickers %}
+            <tr>
+               <td>{{ ticker.symbol }}</td>
+               <td>{{ ticker.user }}</td>
+               <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('infoquote', sym = ticker.symbol) }}">Info</a></td>
+             
+              
+            </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+   </br>
+      <table class="table table-striped">
+      <thead>
+         <tr>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Access level</th>
+            <th>Registration Date</th>
+
+         </tr>
+      </thead>
+      <tbody>
+         {% for user in users %}
+            <tr>
+               <td>{{ user.username }}</td>
+               <td>{{ user.email }}</td>
+               <td>{{ user.accesslevel }}</td>
+               <td>{{ user.registered_on }}</td>
+            </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+  </main>
+{% endblock %}
+        

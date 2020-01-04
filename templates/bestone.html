@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<script>
+$(document).ready( function () {
+    $('#table1').DataTable();
+} );    
+</script>
+
+ <main class="hero-section">
+    <div class="container">
+      
+   <div class="col-md-12">
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('posit') }}" class="btn-primary">Symbols</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradeview') }}" class="btn-primary">Tracking</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('crposit') }}" class="btn-primary">Blockchain</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradearch') }}" class="btn-primary">Archived</a>
+</div>
+
+</br>
+{%- for message in get_flashed_messages() %}
+  <div class="col-md-12">
+      {{ message }}
+      </div>
+{%- endfor %}
+</br>
+
+ <div class="col-md-12">
+     <h3>Total Entries: {{ numsymbols }}</h3>
+     <table id="table1" class="table table-striped">
+      <thead>
+         <tr>
+            <th>SYMBOL</th>
+            <th>PRICE</th>
+            <th>Expiration</th>
+            <th># Days</th>
+            <th>Strike</th>
+            <th>Premium</th>
+            <th>ROR</th>
+            <th>Acquistion Amt</th>
+            <th> </th>
+
+         </tr>
+      </thead>
+      <tbody>
+         {% for alist in lists %}
+            <tr>
+               <td><b>{{ alist.LSym }}</b></td>
+               <td>${{ alist.LPrice }}</td>
+               <td>{{ alist.LExp }}</td>
+               <td>{{ alist.LDays }}</td>
+               <td>${{ alist.LStrike }}</td>
+               <td>${{ alist.LPrem }}</td>
+               <td>{{ alist.LROR }}%</td>
+               <td>${{ alist.LCost }}</td>
+               <td><a href="{{ url_for('tradeadd', sym=alist.LSym, putorcall='P', exp=alist.LExp, strike1=alist.LStrike, strike2=0,initprem=alist.LPrem,numdays=alist.LDays,opti=1,strat=1, ror=alist.LROR) }}"><img src="http://www.clker.com/cliparts/J/N/5/l/n/k/add-button-blue-hi.png" height = "20" width = "60" alt="Add"></a></td>
+            </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+
+
+ </div>
+{% endblock %}

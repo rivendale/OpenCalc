@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="col-md-12">
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('index') }}" class="btn-primary">Main Menu</a>
+</div>
+</br>
+{%- for message in get_flashed_messages() %}
+  <div class="col-md-12">
+      {{ message }}
+      </div>
+{%- endfor %}
+<div class="col-md-12">
+<h3>API Test</h3>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('cryptoapi') }}" class="btn-primary">Test Link</a>
+<h3>Development Projects</h3>
+<b>LOOM</b>
+<a class="btn btn-sm btn-default" role="button" href="https://cryptozombies.io/" class="btn-secondary"  target="_blank">Crypto Zombies</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://delegatecall.com/" class="btn-secondary"  target="_blank">DelegateCall</a>
+</br>
+</br>
+<b>GNOSIS</b>
+<a class="btn btn-sm btn-default" role="button" href="https://gnosis.pm/developers" class="btn-secondary"  target="_blank">Gnosis Development</a>&nbsp
+</br>
+<h3>Block Explorers</h3>
+<a class="btn btn-sm btn-default" role="button" href="https://blockexplorer.com/" class="btn-secondary"  target="_blank">BTC</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://etherscan.io/" class="btn-secondary"  target="_blank">ETH - Etherscan</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://ethplorer.io/" class="btn-secondary"  target="_blank">ETH - ETH Explorer</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://neotracker.io/" class="btn-secondary"  target="_blank">NEO</a>&nbsp
+</br>
+</br>
+<a class="btn btn-sm btn-default" role="button" href="https://wavesexplorer.com/" class="btn-secondary"  target="_blank">WAVES</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://explorer.lisk.io/" class="btn-secondary"  target="_blank">LISK</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://explorer.ark.io/" class="btn-secondary"  target="_blank">ARK</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://explorer.rise.vision/" class="btn-secondary"  target="_blank">RISE</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://chainz.cryptoid.info/strat/" class="btn-secondary"  target="_blank">STRAT</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="chain.nem.ninja/" class="btn-secondary"  target="_blank">NEM</a>&nbsp
+
+<h3>Calculators</h3>
+<a class="btn btn-sm btn-default" role="button" href="https://neotogas.com/" class="btn-secondary"  target="_blank">NEO GAS</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://kucoinshares.com/" class="btn-secondary"  target="_blank">KCS Daily Bonus</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="http://dev.pywaves.org/generators/" class="btn-secondary"  target="_blank">WAVES lPOS</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://dpostools.com/LISK " class="btn-secondary"  target="_blank">LISK</a>&nbsp
+</br>
+</br>
+<a class="btn btn-sm btn-default" role="button" href="pool.arkno.de/calculator.php" class="btn-secondary"  target="_blank">ARK dPOS</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://dpostools.com/RISE" class="btn-secondary"  target="_blank">RISE dPOS</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://whattomine.com/" class="btn-secondary"  target="_blank">What to Mine</a>&nbsp
+
+<h3>Web Wallets</h3>
+<a class="btn btn-sm btn-default" role="button" href="http://neowallet.cn/" class="btn-secondary"  target="_blank">NEO</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://waveswallet.io/" class="btn-secondary"  target="_blank">WAVES</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://wallet.rise.vision/dashboard" class="btn-secondary"  target="_blank">RISE</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://login.lisk.io/" class="btn-secondary"  target="_blank">LSK</a>&nbsp
+
+<h3>Analysis Sites</h3>
+<a class="btn btn-sm btn-default" role="button" href="http://coinmarketcap.com/" class="btn-secondary"  target="_blank">CoinMarketCap</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://www.coingecko.com/en" class="btn-secondary"  target="_blank">Coingecko </a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://bitinfocharts.com/" class="btn-secondary"  target="_blank">Bit Info</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://www.cryptocompare.com" class="btn-secondary"  target="_blank">CryptoCompare</a>&nbsp
+</br>
+</br>
+<a class="btn btn-sm btn-default" role="button" href="https://www.tokendata.io/" class="btn-secondary"  target="_blank">Token Data</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://tokenfilings.com" class="btn-secondary"  target="_blank">Token Filings </a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="http://mapofcoins.com/bitcoin" class="btn-secondary"  target="_blank">Map of Coins</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="http://cryptomaps.org/" class="btn-secondary"  target="_blank">Crypto Maps </a>&nbsp
+</br>
+</br>
+<a class="btn btn-sm btn-default" role="button" href="https://cryptonaire.com/" class="btn-secondary"  target="_blank">Cryptonaire</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://bitcoinwisdom.com/" class="btn-secondary"  target="_blank">BitcoinWisdom</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://masternodes.pro/" class="btn-secondary" target="_blank">Master Nodes</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://coinspectator.com/" class="btn-secondary" target="_blank">Coin Spectator</a>&nbsp
+
+<h3>Message Boards / Social </h3>
+<a class="btn btn-sm btn-default" role="button" href="https://bitcointalk.org/" class="btn-secondary"  target="_blank">BitcoinTalk</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://www.reddit.com/r/CryptoMarkets/" class="btn-secondary"  target="_blank">CryptoMarkets </a>&nbsp
+
+
+<h3>News / Articles</h3>
+<a class="btn btn-sm btn-default" role="button" href="http://www.coindesk.com/" class="btn-secondary"  target="_blank">Coindesk</a>&nbsp
+<a class="btn btn-sm btn-default" role="button" href="https://www.cryptocoinsnews.com/cryptocurrency-analysis/" class="btn-secondary"  target="_blank">Crypto News </a>&nbsp
+
+<h3>Events</h3>
+<a class="btn btn-sm btn-default" role="button" href="http://coinmarketcal.com" class="btn-secondary"  target="_blank">Upcoming Events</a>&nbsp
+</div>
+{% endblock %}

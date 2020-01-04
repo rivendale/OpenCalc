@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block content %}
+   <div class="col-md-12">
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('posit') }}" class="btn-primary">Symbols</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradeview') }}" class="btn-primary">Tracking</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradearch') }}" class="btn-primary">Archived</a>
+</div>
+{%- for message in get_flashed_messages() %}
+  <div class="col-md-12">
+      {{ message }}
+      </div>
+{%- endfor %}
+</br>
+
+	
+ <div class="col-md-12">
+     <h4><a href="{{ url_for('tradeadd', sym = symbol, putorcall='P', exp = expdate, strike1 = shortstrike, strike2=longstrk,initprem=creditprem,numdays = initnumdays,opti=opti,strat=2, ror=ror) }}"><img src="http://www.clker.com/cliparts/J/N/5/l/n/k/add-button-blue-hi.png" height = "50" width = "100" alt="Add"></a><b>Put-Spread for {{ symbol }} [Price ${{ tprice }}]</b> 
+     
+     </h4> 
+     <h4>Expiration Date: {{ expdate }} ({{ initnumdays }} days)</h4>
+     
+     <h4>Note: 1 Contract (100 Shares):
+     
+             <table class="table table-striped">
+      <thead>
+         <tr>
+            <th>Trade type</th>
+            <th>Short Strike</th>
+            <th>Long Strike</th>
+            <th>Premium (Credit)</th>
+            <th>Max Loss</th>
+            <th>$ Amount</th>
+            <th>ROR</th>
+            <th>OPTI</th>
+         </tr>
+      </thead>
+      
+      <tbody>
+            <tr>
+               <td>Net Credit Put Spread</td>
+               <td>${{ shortstrike }} </td>
+               <td>${{ longstrk }}</td>
+               <td>${{ creditprem }} </td>
+               <td>${{ margin }} </td>
+               <td>${{ acqcost }}</td>
+               <td>{{ ror }}%</td>
+               <td>{{ opti }}</td>
+            </tr>
+      </tbody>
+   </table>
+    
+    
+     </h4>
+   <table class="table table-striped">
+      <thead>
+         <tr>
+            <th>Trade Type</th>
+            <th>Strike</th>
+            <th>Premium</th>
+         </tr>
+      </thead>
+      <tbody>
+               <td>Sell (Short)</td>
+               <td>{{ shortstrike }} </td>
+               <td>{{ shortprem }} </td>
+            </tr>  
+         {% for item in strike %}
+            <tr>
+               <td>Buy (Long)</td>
+               <td>{{ item.strike }} </td>
+               <td>{{ item.premium }} </td>
+            </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+         
+         </div>
+{% endblock %}

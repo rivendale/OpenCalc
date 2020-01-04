@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block content %}
+ <main class="hero-section">
+    <div class="container">
+
+   <div class="col-md-12">
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('newposit') }}" class="btn-primary">New</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradeview') }}" class="btn-primary">Tracking</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradearch') }}" class="btn-primary">Archived</a>
+</div>
+</br>
+{%- for message in get_flashed_messages() %}
+  <div class="col-md-12">
+      {{ message }}
+      </div>
+{%- endfor %}
+</br>
+
+   <div class="col-md-12">
+	<form action="" method="post" name="symbol">
+	   <h3>Add Symbol:
+	   {{ form.hidden_tag() }}
+	   {{ form.symbolenter(size=7) }}&nbsp&nbsp&nbsp&nbsp
+	   <input type="submit" value="  Enter  "></h3>
+	</form>
+	</div>
+
+  <div class="col-md-12">
+   <table class="table table-striped">
+      <thead>
+         <tr>
+            <th>SYMBOLS</th>
+            <th>PRICE</th>
+
+         </tr>
+      </thead>
+      <tbody>
+         {% for ticker in tickers %}
+            <tr>
+               <td><b>{{ ticker.symbol }}</b></td>
+               <td>${{ ticker.tprice }}</td>
+               <td><a href="{{ url_for('updatestrikes',sym=ticker.symbol) }}"><img src="https://image.flaticon.com/icons/png/128/179/179407.png" width="20" height="20" alt="Refresh"></a></td>
+               <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('getoptex', sym = ticker.symbol) }}">Stock Info</a></td>
+               <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('getoptex', sym = ticker.symbol) }}">Options</a></td>
+               <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('csp', sym = ticker.symbol) }}">Cash-Secured Put</a></td>
+               <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('putspread', sym = ticker.symbol) }}">Put-Spread</a></td>
+
+               <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('delquote', sym = ticker.symbol) }}"><img src="https://image.flaticon.com/icons/png/128/121/121113.png" width="15" height="15" alt="Delete"></a></td>
+            </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+{% endblock %}
+</div>
+</main>
