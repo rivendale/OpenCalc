@@ -18,9 +18,7 @@
       {% if g.user.is_authenticated%}
         <a class="btn btn-lg btn-default" role="button" href="{{ url_for('posit') }}" class="btn-primary">Symbols</a>
         <a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradeview') }}" class="btn-primary">Tracking</a>
-        <a class="btn btn-lg btn-default" role="button" href="{{ url_for('crposit') }}" class="btn-primary">Blockchain</a>
-        <a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradearch') }}" class="btn-primary">Archived</a>
-        </br></br>
+        </br>
         <a href="{{ url_for('logout') }}" class="btn btn-lg btn-default" role="button" class="btn-primary">Logout</a></li>
 
 

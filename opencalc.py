@@ -127,6 +127,8 @@ class Ticker(db.Model):
         self.user_id = user_id
         self.nextearnings = "tbd"
         self.tprice = tprice
+    
+
         self.priceobj = 0
         self.earnsurpise = 0
         self.tdesc = tdesc
