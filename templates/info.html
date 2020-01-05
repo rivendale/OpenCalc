@@ -26,14 +26,25 @@
 	</form>
 	</div></br>
 </br></br>
+<b>{{ data2.companyName}} ({{ currsym }}) </b></br>
+Next Earnings Date: {{ data2.nextEarningsDate }}<br/>
+Ex-Dividend Date: {{ data2.exDividendDate }}<br/>
+Beta: {{ data2.beta }}<br/>
+P/E Ratio: {{ data2.peRatio }}<br/>
+Year to Date %: {{ data2.ytdChangePercent }}%<br/>
+52 week high: ${{ data2.week52high }}<br/>
+52 week low: ${{ data2.week52low }}<br/>
+200 Day Moving Average: ${{ data2.day200MovingAvg }}<br/>
+50 Day Moving Average: ${{ data2.day50MovingAvg }}<br/>
+Total # of Analysts: {{ data4.numberOfAnalysts }} <br/>
+Price Target (Average): {{ data4.priceTargetAverage }} <br/>
+Price Target (High): {{ data4.priceTargetHigh }} <br/>
+Price Target (Low): {{ data4.priceTargetLow }} <br/>
+Next Dividend Date: {{ data2.nextDividendDate }}<br/>
+Trailing 12 month dividend: {{ data2.ttmDividendRate }}%<br/>
+Dividend Yield: {{ data2.dividendYield }}%<br/>
+</br>
 {{ data2 }}
-</br></br>
- Analysts:  {{ numberOfAnalysts }} <br/>
- Price Target (Average): {{ priceTargetAverage }} <br/>
- Price Target (High): {{ priceTargetHigh }} <br/>
- Price Target (Low): {{ priceTargetLow }} <br/>
-
-
 {% endblock %}
 </div>
 </main>

@@ -26,6 +26,15 @@ from operator import attrgetter
 
 app = Flask(__name__)
 app.config.from_object('settings')
+
+def format_datetime(value, format="%B %d %Y %I:%M %p"):
+    """Format a date time to (Default): Month d YYYY HH:MM P"""
+    if value is None:
+        return ""
+    return value.strftime(format)
+
+app.jinja_env.filters['datetime'] = format_datetime
+
 db = SQLAlchemy(app)
 Bootstrap(app)
 
@@ -276,8 +285,6 @@ intpass = app.config['IAUTHPASS']
 
 # LOGIN MANAGER ROUTES
 
-
-
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -387,24 +394,24 @@ def infocalc(sym):
    IEXdata = "error"
    stockdata = Stock(currsym, token=IEX_TOKEN)
    data2=stockdata.get_key_stats()
-   datapoints = currsym
-   week52high=data2["week52high"]
-   week52low=data2["week52low"]
-   day200MovingAvg=data2["day200MovingAvg"]
-   day50MovingAvg=data2["day50MovingAvg"]
-   ttmDividendRate=data2["ttmDividendRate"]
-   ytdChangePercent=data2["ytdChangePercent"]
-   nextDividendDate=data2["nextDividendDate"]
-   dividendYield=data2["dividendYield"]
-   nextEarningsDate=data2["nextEarningsDate"]
-   exDividendDate=data2["exDividendDate"]
-   beta=data2["beta"]
-   peRatio=data2["peRatio"]
    data4=stockdata.get_price_target()
-   priceTargetAverage = data4["priceTargetAverage"]
-   priceTargetHigh = data4["priceTargetHigh"]
-   priceTargetLow = data4["priceTargetLow"]
-   numberOfAnalysts = data4["numberOfAnalysts"]
+  # week52high=data2["week52high"]
+  # week52low=data2["week52low"]
+ #  day200MovingAvg=data2["day200MovingAvg"]
+ #  day50MovingAvg=data2["day50MovingAvg"]
+ #  ttmDividendRate=data2["ttmDividendRate"]
+  # ytdChangePercent=data2["ytdChangePercent"]
+ #  nextDividendDate=data2["nextDividendDate"]
+ #  dividendYield=data2["dividendYield"]
+ #  nextEarningsDate=data2["nextEarningsDate"]
+ #  exDividendDate=data2["exDividendDate"]
+#   beta=data2["beta"]
+ #  peRatio=data2["peRatio"]
+
+ #  priceTargetAverage = data4["priceTargetAverage"]
+#   priceTargetHigh = data4["priceTargetHigh"]
+#   priceTargetLow = data4["priceTargetLow"]
+ #  numberOfAnalysts = data4["numberOfAnalysts"]
 #
 
 
@@ -412,7 +419,7 @@ def infocalc(sym):
       currsym = form.symbolenter.data
       currsym = format(currsym)
       return redirect(url_for('infocalc',sym=currsym))
-   return render_template('info.html', data2=data2,data4=data4,priceTargetAverage=priceTargetAverage,priceTargetHigh=priceTargetHigh,priceTargetLow=priceTargetLow,numberOfAnalysts=numberOfAnalysts, form=form )
+   return render_template('info.html', currsym=currsym,data2=data2,data4=data4, form=form )
 
 @app.route('/del/<sym>')
 @login_required
