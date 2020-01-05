@@ -127,8 +127,6 @@ class Ticker(db.Model):
         self.user_id = user_id
         self.nextearnings = "tbd"
         self.tprice = tprice
-    
-
         self.priceobj = 0
         self.earnsurpise = 0
         self.tdesc = tdesc
@@ -323,8 +321,6 @@ def admin():
    else:
         return redirect(url_for('index'))
 
-
-
 @app.route('/login',methods=['GET','POST'])
 def login():
     if request.method == 'GET':
@@ -357,7 +353,6 @@ def login():
     flash(welcomemsg)
     return redirect(request.args.get('next') or url_for('index'))
 
-
 @app.route('/logout')
 @login_required
 def logout():
@@ -372,17 +367,6 @@ def index():
    else:
       return render_template("index.html")
 
-
-
-
-@app.route('/cr/', methods=['POST', 'GET'])
-@login_required
-def crposit():
-
-   return render_template('crypto.html')
-
-
-
 @app.route('/posit', methods=['POST', 'GET'])
 @login_required
 def posit():
@@ -396,34 +380,17 @@ def posit():
 
 @app.route('/info/<sym>')
 @login_required
-def infoquote(sym):
-   currsym = format(sym)
-   tradetickupdate(currsym)
-   tagitem = "last_earnings_eps_report_date"
-   url = "https://api.intrinio.com/data_point?identifier="+currsym+"&item="+tagitem
-   resp = requests.get(url, auth=(intuser, intpass))
-   status = resp.status_code
-   data = resp.json()
-   lastearningsdate = "Last Earnings Date: " + str(data["value"])
-   tagitem = "zacks_target_price_mean"
-   url = "https://api.intrinio.com/data_point?identifier="+currsym+"&item="+tagitem
-   resp = requests.get(url, auth=(intuser, intpass))
-   status = resp.status_code
-   data = resp.json()
-   targetprice = "  and Zack's Target Price: " + str(data["value"])
+def infocalc(sym):
+   form = SymbolForm()
 
-   # QUANDL
-   url = "https://www.quandl.com/api/v3/datatables/ZACKS/EA.json?" + qauthy
-   resp = requests.get(url)
-   data = resp.json()
-   estdata = data["datatable"]["data"]
-   estinfo = str(estdata)
-   #
 
-   testy =  lastearningsdate + targetprice
-   testtext = str(testy)
-   flash('%s' % testtext)
-   return redirect(url_for('posit'))
+
+
+   if form.validate_on_submit():
+      currsym = form.symbolenter.data
+      currsym = format(currsym)
+      return redirect(url_for('infocalc',sym=currsym))
+   return render_template('info.html', form=form )
 
 @app.route('/del/<sym>')
 @login_required

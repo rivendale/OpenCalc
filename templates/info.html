@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+ <main class="hero-section">
+    <div class="container">
+
+   <div class="col-md-12">
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('newposit') }}" class="btn-primary">New</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradeview') }}" class="btn-primary">Tracking</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('posit') }}" class="btn-primary">Symbols</a>
+</div>
+</br>
+{%- for message in get_flashed_messages() %}
+  <div class="col-md-12">
+      {{ message }}
+      </div>
+{%- endfor %}
+</br>
+
+   <div class="col-md-12">
+	<form action="" method="post" name="symbol">
+	   <h3>Add Symbol:
+	   {{ form.hidden_tag() }}
+	   {{ form.symbolenter(size=7) }}&nbsp&nbsp&nbsp&nbsp
+	   <input type="submit" value="  Enter  "></h3>
+	</form>
+	</div>
+
+  <div class="col-md-12">
+
+{% endblock %}
+</div>
+</main>
