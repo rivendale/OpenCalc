@@ -5,12 +5,12 @@
 <script>
 $(document).ready( function () {
     $('#table1').DataTable();
-} );    
+} );
 </script>
 
  <main class="hero-section">
     <div class="container">
-      
+
    <div class="col-md-12">
 <a class="btn btn-lg btn-default" role="button" href="{{ url_for('posit') }}" class="btn-primary">Symbols</a>
 <a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradeview') }}" class="btn-primary">Tracking</a>
@@ -23,7 +23,12 @@ $(document).ready( function () {
   <div class="col-md-12">
       {{ message }}
       </div>
-{%- endfor %}
+{%- endfor %}@app.route('/cr/', methods=['POST', 'GET'])
+@login_required
+def crposit():
+
+   return render_template('crypto.html')
+
 </br>
 
  <div class="col-md-12">
@@ -36,7 +41,12 @@ $(document).ready( function () {
             <th>Expiration</th>
             <th># Days</th>
             <th>Strike</th>
-            <th>Premium</th>
+            <@app.route('/cr/', methods=['POST', 'GET'])
+@login_required
+def crposit():
+
+   return render_template('crypto.html')
+th>Premium</th>
             <th>ROR</th>
             <th>Acquistion Amt</th>
             <th> </th>

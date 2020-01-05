@@ -11,7 +11,10 @@ import array
 import math
 import time
 
+
 from datetime import datetime
+
+from iexfinance.stocks import Stock
 
 
 from flask_wtf import Form
@@ -271,10 +274,6 @@ authy = app.config['MYAUTHY']
 intuser = app.config['IAUTHUSER']
 intpass = app.config['IAUTHPASS']
 
-#Config info for Quandl
-qauthy = "api_key=" + app.config['QUANDLAPI']
-#
-
 # LOGIN MANAGER ROUTES
 
 
@@ -302,7 +301,7 @@ def register():
     user = User(username=username,password=userpass,email=useremail,invitedby="OPENCALCADD")
     reqkeyget = request.form['regkey']
     # username.capitalize() - need to capitalize username
-    if reqkeyget == "OPENCALCADD":
+    if reqkeyget == app.config['REGKEY']:
         db.session.add(user)
         db.session.commit()
         flash('User successfully registered')
@@ -381,16 +380,24 @@ def posit():
 @app.route('/info/<sym>')
 @login_required
 def infocalc(sym):
+   currsym = format(sym)
+   currsym = currsym.upper()
    form = SymbolForm()
-
-
+   IEX_TOKEN = app.config['IEX_TOKEN']
+   IEXdata = "error"
+   stockdata = Stock(currsym, token=IEX_TOKEN)
+   data1=stockdata.get_quote()
+   data2=stockdata.get_key_stats()
+   data4=stockdata.get_price_target()
+ 
+#
 
 
    if form.validate_on_submit():
       currsym = form.symbolenter.data
       currsym = format(currsym)
       return redirect(url_for('infocalc',sym=currsym))
-   return render_template('info.html', form=form )
+   return render_template('info.html', data1 = data1, data2=data2,data4=data4, form=form )
 
 @app.route('/del/<sym>')
 @login_required
