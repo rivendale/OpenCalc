@@ -29,22 +29,21 @@
 <b>{{ data2.companyName}} ({{ currsym }}) </b></br>
 Next Earnings Date: {{ data2.nextEarningsDate }}<br/>
 Ex-Dividend Date: {{ data2.exDividendDate }}<br/>
-Beta: {{ data2.beta }}<br/>
+Beta: {{ data2.beta|round(2, 'floor')  }}<br/>
 P/E Ratio: {{ data2.peRatio }}<br/>
-Year to Date %: {{ data2.ytdChangePercent }}%<br/>
+Year to Date: {{ data2.ytdChangePercent|round(2, 'floor')  }}%<br/>
 52 week high: ${{ data2.week52high }}<br/>
 52 week low: ${{ data2.week52low }}<br/>
-200 Day Moving Average: ${{ data2.day200MovingAvg }}<br/>
-50 Day Moving Average: ${{ data2.day50MovingAvg }}<br/>
+200 Day Moving Average: ${{ data2.day200MovingAvg|round  }}<br/>
+50 Day Moving Average: ${{ data2.day50MovingAvg|round  }}<br/>
 Total # of Analysts: {{ data4.numberOfAnalysts }} <br/>
-Price Target (Average): {{ data4.priceTargetAverage }} <br/>
-Price Target (High): {{ data4.priceTargetHigh }} <br/>
-Price Target (Low): {{ data4.priceTargetLow }} <br/>
+Price Target (Average): ${{ data4.priceTargetAverage|round(2, 'floor')  }} <br/>
+Price Target (High): ${{ data4.priceTargetHigh|round(2, 'floor')  }} <br/>
+Price Target (Low): ${{ data4.priceTargetLow|round(2, 'floor')  }} <br/>
 Next Dividend Date: {{ data2.nextDividendDate }}<br/>
-Trailing 12 month dividend: {{ data2.ttmDividendRate }}%<br/>
-Dividend Yield: {{ data2.dividendYield }}%<br/>
+Trailing 12 month dividend: {{ data2.ttmDividendRate|round(2, 'floor')  }}%<br/>
+Dividend Yield: {{ data2.dividendYield|round(2, 'floor') }}%<br/>
 </br>
-{{ data2 }}
 {% endblock %}
 </div>
 </main>

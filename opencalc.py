@@ -391,7 +391,6 @@ def infocalc(sym):
    currsym = currsym.upper()
    form = SymbolForm()
    IEX_TOKEN = app.config['IEX_TOKEN']
-   IEXdata = "error"
    stockdata = Stock(currsym, token=IEX_TOKEN)
    data2=stockdata.get_key_stats()
    data4=stockdata.get_price_target()
@@ -407,7 +406,6 @@ def infocalc(sym):
  #  exDividendDate=data2["exDividendDate"]
 #   beta=data2["beta"]
  #  peRatio=data2["peRatio"]
-
  #  priceTargetAverage = data4["priceTargetAverage"]
 #   priceTargetHigh = data4["priceTargetHigh"]
 #   priceTargetLow = data4["priceTargetLow"]
@@ -604,8 +602,48 @@ def tradetickupdate(sym):
    currprice = data2["quotes"]["quote"]["last"]
    gettype = data2["quotes"]["quote"]["type"]
    #
+   if (gettype == "stock"):
+     IEX_TOKEN = app.config['IEX_TOKEN']
+     stockdata = Stock(sym, token=IEX_TOKEN)
+     data2=stockdata.get_key_stats()
+     data4=stockdata.get_price_target()
+   # week52high=data2["week52high"]
+   # week52low=data2["week52low"]
+   #  day200MovingAvg=data2["day200MovingAvg"]
+   #  day50MovingAvg=data2["day50MovingAvg"]
+   #  ttmDividendRate=data2["ttmDividendRate"]
+   # ytdChangePercent=data2["ytdChangePercent"]
+   #  nextDividendDate=data2["nextDividendDate"]
+   #  dividendYield=data2["dividendYield"]
+   #  exDividendDate=data2["exDividendDate"]
+   #   beta=data2["beta"]
+   #  peRatio=data2["peRatio"]
+
+  # week52high=data2["week52high"]
+  # week52low=data2["week52low"]
+ #  day200MovingAvg=data2["day200MovingAvg"]
+ #  day50MovingAvg=data2["day50MovingAvg"]
+ #  ttmDividendRate=data2["ttmDividendRate"]
+  # ytdChangePercent=data2["ytdChangePercent"]
+ #  nextDividendDate=data2["nextDividendDate"]
+ #  dividendYield=data2["dividendYield"]
+ #  nextEarningsDate=data2["nextEarningsDate"]
+ #  exDividendDate=data2["exDividendDate"]
+#   beta=data2["beta"]
+ #  peRatio=data2["peRatio"]
+ #  priceTargetAverage =
+#   priceTargetHigh = data4["priceTargetHigh"]
+#   priceTargetLow = data4["priceTargetLow"]
+ #  numberOfAnalysts = data4["numberOfAnalysts"]
+   addnextearnings = format(data2["nextEarningsDate"])
+   addnotes = "P/E:" + format(data2["peRatio"])
+   addpricetarget =  data4["priceTargetAverage"]
+   #
    db.session.query(Ticker.id).filter_by(symbol=refsymbol).update({"tprice": currprice})
    db.session.query(Ticker.id).filter_by(symbol=refsymbol).update({"tvol": getvol})
+   if (gettype == "stock"):
+     db.session.query(Ticker.id).filter_by(symbol=refsymbol).update({"nextearnings": addnextearnings})
+     db.session.query(Ticker.id).filter_by(symbol=refsymbol).update({"priceobj": addpricetarget})
    db.session.commit()
    return
 
@@ -633,6 +671,7 @@ def updatestrikes(sym):
     tradetickupdate(currsym)
     # End of Stock Data
 
+
     # Get Expiration Dates
     url = baseurl + "markets/options/expirations?symbol=" + currsym
     resp = requests.get(url, headers=headers)
@@ -649,7 +688,7 @@ def updatestrikes(sym):
         numdays = (dateexp - datetoday).days
 
 
-        if (21 < numdays < 70):
+        if (13 < numdays < 61):
             # number of days -> numdays
             if numdays < 30:
                timemult = numdays / 30

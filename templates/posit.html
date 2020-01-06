@@ -32,9 +32,10 @@
          <tr>
             <th>SYMBOLS</th>
             <th>PRICE</th>
+            <th>TARGET</th>
             <th>RANK</th>
-            <th>RATE</th>
             <th>UPDATE</th>
+            <th>EARNINGS</th>
          </tr>
       </thead>
       <tbody>
@@ -42,12 +43,14 @@
             <tr>
                <td><b>{{ ticker.symbol }}</b></td>
                <td>${{ ticker.tprice }}</td>
-               <td>TBD</td>
-               <td>TBD</td>
+               <td>${{ ticker.priceobj }}</td>
+               <td>{{ ticker.earnsurpise }}</td>
                <td><a href="{{ url_for('updatestrikes',sym=ticker.symbol) }}"><img src="https://image.flaticon.com/icons/png/128/179/179407.png" width="20" height="20" alt="Refresh"></a></td>
-               <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('infocalc', sym = ticker.symbol) }}">INFO</a></td>
+               <td>{{ ticker.nextearnings }}</td>
+               <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('csp', sym = ticker.symbol) }}">NOTES</a></td>
+               <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('csp', sym = ticker.symbol) }}">CALC PUT</a></td>
                <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('getoptex', sym = ticker.symbol) }}">STRIKES</a></td>
-               <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('csp', sym = ticker.symbol) }}">PUT</a></td>
+
 
                <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('delquote', sym = ticker.symbol) }}"><img src="https://image.flaticon.com/icons/png/128/121/121113.png" width="15" height="15" alt="Delete"></a></td>
             </tr>
