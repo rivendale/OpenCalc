@@ -44,10 +44,10 @@
                <td><b>{{ ticker.symbol }}</b></td>
                <td>${{ ticker.tprice }}</td>
                <td>${{ ticker.priceobj }}</td>
-               <td>{{ ticker.earnsurpise }}</td>
+               <td>{{ ticker.earnsurprise }}</td>
                <td><a href="{{ url_for('updatestrikes',sym=ticker.symbol) }}"><img src="https://image.flaticon.com/icons/png/128/179/179407.png" width="20" height="20" alt="Refresh"></a></td>
                <td>{{ ticker.nextearnings }}</td>
-               <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('csp', sym = ticker.symbol) }}">NOTES</a></td>
+               <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('stocknotes', sym = ticker.symbol) }}">NOTES</a></td>
                <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('csp', sym = ticker.symbol) }}">CALC PUT</a></td>
                <td><a class="btn btn-sm btn-default" role="button" href="{{ url_for('getoptex', sym = ticker.symbol) }}">STRIKES</a></td>
 

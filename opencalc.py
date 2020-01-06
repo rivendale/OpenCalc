@@ -18,7 +18,7 @@ from iexfinance.stocks import Stock
 
 
 from flask_wtf import Form
-from wtforms import StringField, BooleanField
+from wtforms import StringField, BooleanField, FloatField, IntegerField
 from wtforms.validators import DataRequired
 
 from operator import itemgetter
@@ -114,11 +114,14 @@ class LoginForm(Form):
 class SymbolForm(Form):
     symbolenter = StringField('Symbol', validators=[DataRequired()])
 
+class RankingForm(Form):
+    rankenter = FloatField('Ranking', validators=[DataRequired()])
+
 class Ticker(db.Model):
     __tablename__ = "Ticker"
     id = db.Column(db.Integer, primary_key=True)
     symbol = db.Column(db.String(7), index=True)
-    notes = db.Column(db.String(50))
+    notes = db.Column(db.String(250))
     category = db.Column(db.String(30), index=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     _mapper_args__ = {"order_by":symbol}
@@ -134,13 +137,13 @@ class Ticker(db.Model):
     def __init__(self, symbol, tprice, user_id, tvol, tdesc, ttype,):
         self.symbol = symbol
         self.timestamp = datetime.utcnow()
-        self.notes = "No Notes"
-        self.category = "No Category"
+        self.notes = "None"
+        self.category = "None"
         self.user_id = user_id
-        self.nextearnings = "tbd"
+        self.nextearnings = "No Data"
         self.tprice = tprice
         self.priceobj = 0
-        self.earnsurpise = 0
+        self.earnsurpise = 0.0
         self.tdesc = tdesc
         self.ttype = ttype
         self.tvol = tvol
@@ -384,6 +387,33 @@ def posit():
       return redirect(url_for('getquotes',sym=currsym))
    return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.symbol).filter_by(user_id=g.user.id), form=form )
 
+# UPDATE RANK
+@app.route('/updaterank/<sym>&<rank>')
+@login_required
+def updaterank(sym,rank):
+    currsym = format(sym)
+    currsym = currsym.upper()
+    db.session.query(Ticker.id).filter_by(symbol=currsym).update({"earnsurprise": rank})
+    db.session.commit()
+    newmsg = "Updated " + currsym + " to rank of " + format(rank)
+    flash('%s' % newmsg)
+    return redirect(url_for('stocknotes',sym=currsym))
+
+# NOTES
+@app.route('/stocknotes/<sym>', methods=['POST', 'GET'])
+@login_required
+def stocknotes(sym):
+   form = RankingForm()
+   currsym = format(sym)
+   currsym = currsym.upper()
+
+   if form.validate_on_submit():
+      rank = form.rankenter.data
+      return redirect(url_for('updaterank',sym=currsym,rank=rank))
+
+   return render_template('stocknotes.html', form=form, ticker = Ticker.query.filter_by(symbol=currsym).filter_by(user_id=g.user.id).scalar())
+  # return render_template('stocknotes.html', ticker = Ticker.query.filter_by(symbol=currsym).filter_by(user_id=g.user.id).scalar())
+
 @app.route('/info/<sym>')
 @login_required
 def infocalc(sym):
@@ -463,7 +493,6 @@ def getquotes(sym):
       newticker = Ticker(symbol=ticker, user_id=uid, tprice=getlast, tvol = getvol, tdesc = getdesc, ttype = gettype)
       db.session.add(newticker)
       db.session.commit()
-      #updatestrikes(ticker)  # just added to ensure strikes added for new entry
       return redirect(url_for('posit'))
    testz = "Already added"
    flash('%s' % testz)
@@ -635,15 +664,20 @@ def tradetickupdate(sym):
 #   priceTargetHigh = data4["priceTargetHigh"]
 #   priceTargetLow = data4["priceTargetLow"]
  #  numberOfAnalysts = data4["numberOfAnalysts"]
+   #addnotes = "High:" + format(truncate(data2["week52high"]),1) + " Low: " + format(data2["week52low"])
+   addnotes = " 200 DMA is $" + format(data2["day200MovingAvg"])
    addnextearnings = format(data2["nextEarningsDate"])
-   addnotes = "P/E:" + format(data2["peRatio"])
+   addnotes += " and P/E:" + format(data2["peRatio"])
    addpricetarget =  data4["priceTargetAverage"]
    #
    db.session.query(Ticker.id).filter_by(symbol=refsymbol).update({"tprice": currprice})
    db.session.query(Ticker.id).filter_by(symbol=refsymbol).update({"tvol": getvol})
+   db.session.query(Ticker.id).filter_by(symbol=refsymbol).update({"category": gettype})
    if (gettype == "stock"):
+
      db.session.query(Ticker.id).filter_by(symbol=refsymbol).update({"nextearnings": addnextearnings})
      db.session.query(Ticker.id).filter_by(symbol=refsymbol).update({"priceobj": addpricetarget})
+     db.session.query(Ticker.id).filter_by(symbol=refsymbol).update({"notes": addnotes})
    db.session.commit()
    return
 
