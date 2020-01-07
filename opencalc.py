@@ -722,7 +722,7 @@ def updatestrikes(sym):
         numdays = (dateexp - datetoday).days
 
 
-        if (13 < numdays < 61):
+        if (15 < numdays < 100):
             # number of days -> numdays
             if numdays < 30:
                timemult = numdays / 30
