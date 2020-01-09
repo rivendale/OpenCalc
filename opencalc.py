@@ -791,7 +791,7 @@ def newposit():
     tickernum = 0
     symbols = []
     ListCSPs = []
-
+    errorcount = 0
     tickers = Ticker.query.filter_by(user_id=g.user.id).order_by(Ticker.symbol).with_entities(Ticker.symbol).all()
     for ticker in tickers:
        symbols += list(ticker)
@@ -802,31 +802,34 @@ def newposit():
          symbol = format(sym)
          #updatestrikes(symbol)
          strike = strikes.query.filter_by(symbol=symbol).filter(strikes.opti > 0).filter_by(putorcall="P").order_by(strikes.opti.desc(),strikes.strike.desc()).limit(1)
-         short = strike.first()
-         ticker = Ticker.query.filter_by(symbol=symbol).first()
-         tickerprice = round(ticker.tprice, 1)
-         expdate = short.expirationdate
-         shortstrike = float(short.strike)
-         opti = short.opti
-         shortpremium = short.premium
-         numdays = short.numdays
-         if numdays < 30:
-             timemult = numdays / 30
+         if strike.count() == 0:
+             errorcount += 1
          else:
-             timemult = 30 / numdays
-         acqcost = (round(round(shortstrike / 0.01) * 0.01, -int(math.floor(math.log10(0.01)))))
-         creditprem = shortpremium
-         creditprem = (round(round(creditprem / 0.01) * 0.01, -int(math.floor(math.log10(0.01)))))
-         ror = (creditprem / acqcost) * timemult
-         ror = round(round(ror / 0.001) * 0.001, -int(math.floor(math.log10(0.001))))
-         ror = ror * 100
-         ror = round(ror,3)
-         acqcost = acqcost * 100
-         tickernum += 1
+             short = strike.first()
+             ticker = Ticker.query.filter_by(symbol=symbol).first()
+             tickerprice = round(ticker.tprice, 1)
+             expdate = short.expirationdate
+             shortstrike = float(short.strike)
+             opti = short.opti
+             shortpremium = short.premium
+             numdays = short.numdays
+             if numdays < 30:
+                 timemult = numdays / 30
+             else:
+                 timemult = 30 / numdays
+             acqcost = (round(round(shortstrike / 0.01) * 0.01, -int(math.floor(math.log10(0.01)))))
+             creditprem = shortpremium
+             creditprem = (round(round(creditprem / 0.01) * 0.01, -int(math.floor(math.log10(0.01)))))
+             ror = (creditprem / acqcost) * timemult
+             ror = round(round(ror / 0.001) * 0.001, -int(math.floor(math.log10(0.001))))
+             ror = ror * 100
+             ror = round(ror,3)
+             acqcost = acqcost * 100
+             tickernum += 1
          ListCSPs.append(CSPR(LSym=str(symbol),LPrice=str(tickerprice),LExp=str(expdate),LDays=str(numdays),LStrike=str(shortstrike),LPrem=str(creditprem),LROR=str(ror),LCost=str(acqcost)))
-         # end of loop
+             # end of loop
 
-    return render_template('bestone.html', tickers=tickers, numsymbols = tickernum, lists = ListCSPs)
+    return render_template('bestone.html', errorcount = errorcount,tickers=tickers, numsymbols = tickernum, lists = ListCSPs)
 #
 
 

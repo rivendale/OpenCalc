@@ -14,7 +14,6 @@ $(document).ready( function () {
    <div class="col-md-12">
 <a class="btn btn-lg btn-default" role="button" href="{{ url_for('posit') }}" class="btn-primary">Symbols</a>
 <a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradeview') }}" class="btn-primary">Tracking</a>
-<a class="btn btn-lg btn-default" role="button" href="{{ url_for('crposit') }}" class="btn-primary">Blockchain</a>
 <a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradearch') }}" class="btn-primary">Archived</a>
 </div>
 
@@ -23,12 +22,7 @@ $(document).ready( function () {
   <div class="col-md-12">
       {{ message }}
       </div>
-{%- endfor %}@app.route('/cr/', methods=['POST', 'GET'])
-@login_required
-def crposit():
-
-   return render_template('crypto.html')
-
+{%- endfor %}
 </br>
 
  <div class="col-md-12">
@@ -41,12 +35,7 @@ def crposit():
             <th>Expiration</th>
             <th># Days</th>
             <th>Strike</th>
-            <@app.route('/cr/', methods=['POST', 'GET'])
-@login_required
-def crposit():
-
-   return render_template('crypto.html')
-th>Premium</th>
+            <th>Premium</th>
             <th>ROR</th>
             <th>Acquistion Amt</th>
             <th> </th>
@@ -69,7 +58,8 @@ th>Premium</th>
          {% endfor %}
       </tbody>
    </table>
-
+ </br>
+ Errors: {{ errorcount }}
 
  </div>
 {% endblock %}
