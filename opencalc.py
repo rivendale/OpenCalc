@@ -845,7 +845,7 @@ def downloadsymbols():
 
         proxy = io.StringIO()
         #writer = csv.writer(proxy, delimiter=',')
-        fieldnames = ['symbol','nextearnings','priceobj','tprice']
+        fieldnames = ['Symbol','Next Earnings Date','Analyst Price Objective','Current Price']
         writer = csv.DictWriter(proxy, fieldnames=fieldnames)
         writer.writeheader()
         proxy.flush()
