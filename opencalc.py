@@ -844,16 +844,18 @@ def downloadsymbols():
 #
 
         proxy = io.StringIO()
-        writer = csv.writer(proxy, delimiter=',')
+        #writer = csv.writer(proxy, delimiter=',')
+        fieldnames = ['symbol','nextearnings','priceobj','tprice']
+        writer = csv.DictWriter(records, fieldnames=fieldnames)
 
-        writeline = ['Symbol','Next Earnings', 'Price Objective','Current Price']
-        writeline = format(writeline)
-        writer.writerow(writeline)
+    #    writeline = ['Symbol','Next Earnings', 'Price Objective','Current Price']
+    #    writeline = format(writeline)
+    #    writer.writerow(writeline)
 
-        for record in records:
-            writeline = [format(record.symbol),format(record.nextearnings),format(record.priceobj),format(record.tprice)]
-            writeline = format(writeline)
-            writer.writerow(writeline)
+    #    for record in records:
+    #        writeline = [format(record.symbol),format(record.nextearnings),format(record.priceobj),format(record.tprice)]
+    #        writeline = format(writeline)
+    #        writer.writerow(writeline)
 
         # Creating the byteIO object from the StringIO Object
         b = bytes(proxy.getvalue(), 'utf-8')
