@@ -844,7 +844,7 @@ def downloadsymbols():
 #
 
         proxy = io.StringIO()
-        writer = csv.writer(proxy, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL )
+        writer = csv.writer(proxy, delimiter=',')
 
         writeline = ['Symbol','Next Earnings', 'Price Objective','Current Price']
         writeline = format(writeline)
