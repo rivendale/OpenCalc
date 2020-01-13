@@ -866,7 +866,6 @@ def downloadsymbols():
             buffer,
             as_attachment=True,
             attachment_filename='symbols.csv',
-            mimetype='application/x-csv'
         )
 #
     except Exception as e:
