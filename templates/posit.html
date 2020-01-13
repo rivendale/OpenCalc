@@ -8,6 +8,7 @@
 <a class="btn btn-lg btn-default" role="button" href="{{ url_for('newposit') }}" class="btn-primary">New</a>
 <a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradeview') }}" class="btn-primary">Tracking</a>
 <a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradearch') }}" class="btn-primary">Archived</a>
+<a class="btn btn-lg btn-default" role="button" href="{{ url_for('downloadsymbols') }}" class="btn-primary" target="blank">Download</a>
 </div>
 </br>
 {%- for message in get_flashed_messages() %}
@@ -16,7 +17,8 @@
       </div>
 {%- endfor %}
 </br>
-
+</br>
+</br>
    <div class="col-md-12">
 	<form action="" method="post" name="symbol">
 	   <h3>Add Symbol:

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, request, redirect, session, url_for, abort, g
+from flask import Flask, render_template, flash, request, redirect, session, url_for, abort, g, make_response, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
@@ -10,7 +10,7 @@ import json
 import array
 import math
 import time
-
+import csv, io
 
 from datetime import datetime
 
@@ -376,6 +376,7 @@ def index():
    else:
       return render_template("index.html")
 
+
 @app.route('/posit', methods=['POST', 'GET'])
 @login_required
 def posit():
@@ -385,7 +386,11 @@ def posit():
       currsym = form.symbolenter.data
       currsym = format(currsym)
       return redirect(url_for('getquotes',sym=currsym))
-   return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.symbol).filter_by(user_id=g.user.id), form=form )
+   try:
+       return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.symbol).filter_by(user_id=g.user.id), form=form )
+   except Exception as e:
+       return str(e)
+
 
 # UPDATE RANK
 @app.route('/updaterank/<sym>&<rank>')
@@ -831,7 +836,37 @@ def newposit():
 
     return render_template('bestone.html', errorcount = errorcount,tickers=tickers, numsymbols = tickernum, lists = ListCSPs)
 #
+@app.route('/download/')
+@login_required
+def downloadsymbols():
+    try:
+        records = Ticker.query.order_by(Ticker.symbol).filter_by(user_id=g.user.id)
+#
 
+        proxy = io.StringIO()
+        writer = csv.writer(proxy, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL )
+
+        writer.writerow(['Symbol','Next Earnings', 'Price Objective','Current Price'])
+
+        for record in records:
+            writer.writerow(format(record.symbol),format(record.nextearnings),format(record.priceobj),format(record.tprice))
+
+        # Creating the byteIO object from the StringIO Object
+        b = bytes(proxy.getvalue(), 'utf-8')
+        buffer = io.BytesIO()
+        buffer.write(b)
+        buffer.seek(0)
+        proxy.close()
+
+        return send_file(
+            buffer,
+            as_attachment=True,
+            attachment_filename='symbols.csv',
+            mimetype='application/x-csv'
+        )
+#
+    except Exception as e:
+        return str(e)
 
 # END
 
