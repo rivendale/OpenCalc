@@ -32,12 +32,12 @@
    <table class="table table-striped">
       <thead>
          <tr>
-            <th>SYMBOLS</th>
-            <th>PRICE</th>
-            <th>TARGET</th>
-            <th>RANK</th>
+            <th><a href="{{ url_for('posit', sortby = "symbol") }}">SYMBOLS</a></th>
+            <th><a href="{{ url_for('posit', sortby = "price") }}">PRICE</a></th>
+            <th><a href="{{ url_for('posit', sortby = "target") }}">TARGET</a></th>
+            <th><a href="{{ url_for('posit', sortby = "rank") }}">RANK</a></th>
             <th>UPDATE</th>
-            <th>EARNINGS</th>
+            <th><a href="{{ url_for('posit', sortby = "nextearnings") }}">EARNINGS</th>
          </tr>
       </thead>
       <tbody>

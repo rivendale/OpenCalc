@@ -376,10 +376,11 @@ def index():
    else:
       return render_template("index.html")
 
-
-@app.route('/posit', methods=['POST', 'GET'])
+@app.route('/posit', defaults={"sortby": "nextearnings"}, methods=['POST', 'GET'])
+@app.route('/posit/<sortby>', methods=['POST', 'GET'])
 @login_required
-def posit():
+
+def posit(sortby):
    form = SymbolForm()
 
    if form.validate_on_submit():
@@ -387,7 +388,16 @@ def posit():
       currsym = format(currsym)
       return redirect(url_for('getquotes',sym=currsym))
    try:
-       return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.symbol).filter_by(user_id=g.user.id), form=form )
+      if sortby == 'nextearnings':
+          return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.nextearnings).filter_by(user_id=g.user.id), form=form )
+      elif sortby == 'price':
+          return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.tprice).filter_by(user_id=g.user.id), form=form )
+      elif sortby == 'target':
+          return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.priceobj).filter_by(user_id=g.user.id), form=form )
+      elif sortby == 'rank':
+          return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.earnsurprise).filter_by(user_id=g.user.id), form=form )
+      else:
+          return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.symbol).filter_by(user_id=g.user.id), form=form )
    except Exception as e:
        return str(e)
 
