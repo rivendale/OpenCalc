@@ -4,7 +4,6 @@
    <div class="col-md-12">
 <a class="btn btn-lg btn-default" role="button" href="{{ url_for('posit') }}" class="btn-primary">Symbols</a>
 <a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradeview') }}" class="btn-primary">Tracking</a>
-<a class="btn btn-lg btn-default" role="button" href="{{ url_for('crposit') }}" class="btn-primary">Blockchain</a>
 <a class="btn btn-lg btn-default" role="button" href="{{ url_for('tradearch') }}" class="btn-primary">Archived</a>
 </div>
 
@@ -28,8 +27,8 @@
 </div>
 
  <div class="col-md-12">
-     <h4><b>Put Strikes</b> </h4> 
-     
+     <h4><b>Put Strikes</b> </h4>
+
    <table class="table table-striped">
       <thead>
          <tr>
@@ -56,12 +55,12 @@
          {% endfor %}
       </tbody>
    </table>
-         
+
          </div>
-         
+
           <div class="col-md-12">
-     <h4><b>Call Strikes</b> </h4> 
-     
+     <h4><b>Call Strikes</b> </h4>
+
    <table class="table table-striped">
       <thead>
          <tr>
@@ -82,6 +81,6 @@
          {% endfor %}
       </tbody>
    </table>
-         
+
          </div>
 {% endblock %}

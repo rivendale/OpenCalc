@@ -376,32 +376,6 @@ def index():
    else:
       return render_template("index.html")
 
-@app.route('/posit', defaults={"sortby": "nextearnings"}, methods=['POST', 'GET'])
-@app.route('/posit/<sortby>', methods=['POST', 'GET'])
-@login_required
-
-def posit(sortby):
-   form = SymbolForm()
-
-   if form.validate_on_submit():
-      currsym = form.symbolenter.data
-      currsym = format(currsym)
-      return redirect(url_for('getquotes',sym=currsym))
-   try:
-      if sortby == 'nextearnings':
-          return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.nextearnings).filter_by(user_id=g.user.id), form=form )
-      elif sortby == 'price':
-          return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.tprice).filter_by(user_id=g.user.id), form=form )
-      elif sortby == 'target':
-          return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.priceobj).filter_by(user_id=g.user.id), form=form )
-      elif sortby == 'rank':
-          return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.earnsurprise).filter_by(user_id=g.user.id), form=form )
-      else:
-          return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.symbol).filter_by(user_id=g.user.id), form=form )
-   except Exception as e:
-       return str(e)
-
-
 # UPDATE RANK
 @app.route('/updaterank/<sym>&<rank>')
 @login_required
@@ -798,11 +772,36 @@ def updatestrikes(sym):
 # END
 
 
-#working here now
-# New Auto-Calc for nears out of the money cash secured put and hedged put
-@app.route('/new', methods=['POST', 'GET'])
+@app.route('/posit', defaults={"sortby": "nextearnings"}, methods=['POST', 'GET'])
+@app.route('/posit/<sortby>', methods=['POST', 'GET'])
 @login_required
-def newposit():
+
+def posit(sortby):
+   form = SymbolForm()
+
+   if form.validate_on_submit():
+      currsym = form.symbolenter.data
+      currsym = format(currsym)
+      return redirect(url_for('getquotes',sym=currsym))
+   try:
+      if sortby == 'nextearnings':
+          return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.nextearnings).filter_by(user_id=g.user.id), form=form )
+      elif sortby == 'price':
+          return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.tprice).filter_by(user_id=g.user.id), form=form )
+      elif sortby == 'target':
+          return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.priceobj).filter_by(user_id=g.user.id), form=form )
+      elif sortby == 'rank':
+          return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.earnsurprise).filter_by(user_id=g.user.id), form=form )
+      else:
+          return render_template('posit.html', tickers = Ticker.query.order_by(Ticker.symbol).filter_by(user_id=g.user.id), form=form )
+   except Exception as e:
+       return str(e)
+
+@app.route('/new', defaults={"sortby": "symbols"}, methods=['POST', 'GET'])
+@app.route('/new/<sortby>', methods=['POST', 'GET'])
+@login_required
+
+def newposit(sortby):
     tickernum = 0
     symbols = []
     ListCSPs = []
@@ -822,6 +821,7 @@ def newposit():
          else:
              short = strike.first()
              ticker = Ticker.query.filter_by(symbol=symbol).first()
+
              tickerprice = round(ticker.tprice, 1)
              expdate = short.expirationdate
              shortstrike = float(short.strike)
@@ -843,8 +843,12 @@ def newposit():
              tickernum += 1
          ListCSPs.append(CSPR(LSym=str(symbol),LPrice=str(tickerprice),LExp=str(expdate),LDays=str(numdays),LStrike=str(shortstrike),LPrem=str(creditprem),LROR=str(ror),LCost=str(acqcost)))
              # end of loop
+    try:
+        if sortby == 'symbols':
+            return render_template('bestone.html', errorcount = errorcount, numsymbols = tickernum, lists = ListCSPs)
+    except Exception as e:
+        return str(e)
 
-    return render_template('bestone.html', errorcount = errorcount,tickers=tickers, numsymbols = tickernum, lists = ListCSPs)
 #
 @app.route('/download/')
 @login_required
@@ -1127,11 +1131,7 @@ def getorigoptinf(sym,exp):
       timemult = numdays / 30
    else:
       timemult = 30 / numdays
-   # Number of Days: numdays
-   # Today's Date: datetoday
-   # Expiration Date: exptxtdate
-   # Symbol: symb
-   # Current Price: currprice
+
    backref =  url_for('getoptex',sym=format(sym))
 
 

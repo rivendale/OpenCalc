@@ -14,13 +14,13 @@
 {%- endfor %}
 </br>
 
-	
+
  <div class="col-md-12">
      <h4>
    {% if viewtype == "TRADES" %}
    <a href="{{ url_for('traderefresh') }}"><img src="https://image.flaticon.com/icons/png/128/179/179407.png" width="35" height="35" alt="Refresh"></a></td>
-   {% endif %}<b>{{ viewtype }}</b>  </h4> 
-     
+   {% endif %}<b>{{ viewtype }}</b>  </h4>
+
       <table class="table table-striped">
       <thead>
          <tr>
@@ -38,7 +38,7 @@
             <th></th>
          </tr>
       </thead>
-      
+
       <tbody>
                  {% for trade in trades %}
             <tr>
@@ -66,9 +66,9 @@
          {% endfor %}
       </tbody>
    </table>
-    
+
      </h4>
 
-         
+
          </div>
 {% endblock %}
