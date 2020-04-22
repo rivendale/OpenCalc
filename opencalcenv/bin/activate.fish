@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/nick/OpenCalc/opencalcenv"
+set -gx VIRTUAL_ENV "/home/nick/Desktop/OpenCalc/opencalcenv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
